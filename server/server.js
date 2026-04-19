@@ -19,7 +19,7 @@ app.get("/", (req, res)=>{
 
 function getMovie(req,res){
     const videoPath = path.resolve(__dirname, "public", req.filename)
-
+console.log(req.filename)
     const stat = fs.statSync(videoPath)
     const fileSize = stat.size
 
@@ -27,7 +27,7 @@ function getMovie(req,res){
     if(range){
         const parts = range.replace(/bytes=/, "").split("-")
         const start = parseInt(parts[0], 10);
-        const end = parts[1] ? parseInt(parts[1], 10) : filename - 1
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
         if(start >= fileSize) {
             res.status(416).send("Запит за межами діапазону")
             return
@@ -70,5 +70,17 @@ app.get("/movies/:id", (req, res, next)=>{
         }
     })
 }, getMovie)
+
+app.get("/movies", (req, res)=>{
+    let query ="SELECT * FROM movie"
+    db.query(query, (err, result)=> {
+        if(err){
+            console.error("SQL error", err)
+            res.status(500).send("Internal Server error")
+        }else{
+            res.json(result)
+        }
+    })
+})
 
 app.listen(3000, ()=> console.log("Server started!"))
