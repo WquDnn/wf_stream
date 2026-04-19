@@ -1,8 +1,12 @@
 import React from 'react'
 import { Routes, Route } from "react-router"
 import Movie from './pages/Movie'
+import { useDispatch } from "react-redux"
+import { getMovies } from './store/APIReducer'
 
 export default function App() {
+  let dispatch = useDispatch()
+  dispatch(getMovies({limit : 5, offset: 2, sort: "title", sortType: "desc"}))
   return (
     <div style={{
       display: "flex",
