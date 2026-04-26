@@ -24,6 +24,18 @@ const APIReducer = createSlice({
             state.loading = false
             state.movies = action.payload
         })
+        builder.addCase(searchMovies.pending, (state)=>{
+            state.loading = true,
+            state.error = null
+        })
+        builder.addCase(searchMovies.rejected, (state, action)=>{
+            state.loading = false
+            state.error = action.error.message
+        })
+        builder.addCase(searchMovies.fulfilled, (state, action)=>{
+            state.loading = false
+            state.movies = action.payload
+        })
     }
 });
 
@@ -31,6 +43,11 @@ export const getMovies = createAsyncThunk("api/getMovies", async (data) => {
     let response = await api.get("/movies", {
         params: data
     })
+    return response.data
+})
+
+export const searchMovies = createAsyncThunk("api/searchMovie", async (data)=>{
+    let response = await api.get("/search", {params: data})
     return response.data
 })
 
