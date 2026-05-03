@@ -7,11 +7,16 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTheme } from '../store/themeReducer';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import MoneyOffCsredIcon from '@mui/icons-material/MoneyOffCsred';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
+  
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
@@ -51,6 +56,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  let t = useSelector(state => state.theme.theme)
+  let dispatch = useDispatch() 
   return (
     <Box>
       <AppBar position="static">
@@ -61,14 +68,19 @@ export default function SearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={()=>{
+              dispatch(changeTheme(t == "light" ? "dark": "light"))
+            }}
           >
-            <MenuIcon />
+            {
+              t == "light" ? <AttachMoneyIcon/> : <MoneyOffCsredIcon/>
+            }
           </IconButton>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: "black" }}
+            sx={(theme)=> ({ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: "black", fontFamily: theme.typography.title })}
           >
             Stream 马马虎虎马马虎虎马马虎虎 
           </Typography>

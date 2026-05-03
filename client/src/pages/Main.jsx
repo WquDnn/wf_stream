@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMovies } from '../store/APIReducer'
-import { Grid } from '@mui/material'
-import { Card, CardMedia, CardHeader} from '@mui/material'
+import { CircularProgress, Grid } from '@mui/material'
+import { Card, CardMedia, CardHeader, Box} from '@mui/material'
 import { Link } from 'react-router'
 
 export default function Main() {
@@ -13,6 +13,17 @@ export default function Main() {
         dispatch(getMovies({ limit: 10 }))
     }, [])
     let movies = useSelector((state) => state.api.movies)
+    let loading = useSelector((state) => state.api.loading)
+
+    if(loading) {
+        return <Box sx={{
+            minHeight: "50vh",
+            display: "grid",
+            placeItems: "center"
+        }}>
+            <CircularProgress/>
+        </Box>
+    }
     return <Grid container spacing={2} sx={{ p: 2 }}>
         {movies.map((movie, index) => (
            
@@ -23,7 +34,7 @@ export default function Main() {
                     <CardHeader title={movie.title} subheader={movie.genre}></CardHeader>
                 </Card>
 </Link>
-            </Grid>
+            </Grid> // vsim privit v comu blogi ya rockazy pro sebe tak os ce miu chydoviu oroject
             
        ) )}
 
