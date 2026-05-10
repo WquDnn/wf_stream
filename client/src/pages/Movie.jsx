@@ -2,11 +2,37 @@ import React from 'react'
 import { Plyr } from "plyr-react"
 import "plyr-react/plyr.css"
 import { useParams } from "react-router"
-
+import { styled, Box, Paper, Card, CardMedia, Typography, Divider } from "@mui/material"
+import { useSelector, useDispatch } from "react-redux"
+import { getMovieInfo } from '../store/APIReducer'
+import { useEffect } from 'react'
 export default function Movie() {
     let { id } = useParams()
+    let dispatch = useDispatch()
+    useEffect(()=>{
+           dispatch(getMovieInfo(id))
+    }, [])
+
+    let movie = useSelector( state=> state.api.movie)
     return (
-        <div>
+        <Wrapper>
+            <InfoBar>
+                <CardMedia image="http://locallhost:3000/poster.webp" sx={{aspectRatio: "3/4"}}/>
+                <Typography variant="body1">
+                    Release data: {new Date(movie.release_data).toLocaleDateString}
+                </Typography>
+                <Typography variant="body1">
+                    IMDB: {movie.rating}
+                </Typography>
+                <Typography variant="body1">
+                   Duration:     {movie.duration}
+                </Typography>
+            </InfoBar>
+            <PlayerWrapper>
+                <Typography variant="h4">{movie.title}</Typography>
+                <Typography varient="h6">{movie.year}</Typography>
+
+            
             <Plyr source={{
                 type: "video",
                 sources: [
@@ -29,6 +55,37 @@ export default function Movie() {
                     ]
                 }}
             />
-        </div>
+            </PlayerWrapper>
+            <OtherInfo>
+                <Typography variant="h4">Description</Typography>
+                <Divider></Divider>
+                <Typography variant="body1">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro iste fugit facilis ullam ipsa! Totam, culpa reprehenderit suscipit ipsum dicta amet harum autem! Facere molestias nobis provident aliquam ad?
+                </Typography>
+            </OtherInfo>
+        </Wrapper>
     )
 }
+
+let Wrapper = styled(Box)`
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   margin: 2rem 0;
+   gap: 1rem;
+
+`
+
+let InfoBar = styled(Card)`
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+`
+
+let PlayerWrapper = styled(Box)`
+    grid-column: span 2;
+`
+
+let OtherInfo = styled(Paper)`
+    padding:  1rem;
+    grid-column: 1/-1;
+`

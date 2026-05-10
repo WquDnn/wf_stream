@@ -148,4 +148,17 @@ res.json(result)
 })
 })
 
+app.get("/movieinfo/:id", (req, res)=>{
+    let id = req.params?.id
+    if(!id) {
+       return res.status(404).send("Not found")
+    }
+    db.query("SELECT * FROM movie WHERE id = ?", [id], (err, result)=>{
+        if(err){
+            return res.status(500).send(err.message)
+        }
+        res.status(200).json(result[0])
+    })
+})
+
 app.listen(3000, () => console.log("Server started!"))
