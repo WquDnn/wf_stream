@@ -10,6 +10,7 @@ import {ThemeProvider} from "@mui/material"
 import { lightTheme, darkTheme} from "./Styles/theme.js"
 
 import {useSelector } from "react-redux"
+import "./i18next.js"
 
 
 createRoot(document.getElementById('root')).render(

@@ -12,6 +12,9 @@ import { changeTheme } from '../store/themeReducer';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffCsredIcon from '@mui/icons-material/MoneyOffCsred';
 
+import { useTranslation } from 'react-i18next';
+import { FormControl, MenuItem, Select } from '@mui/material';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -56,8 +59,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  
   let t = useSelector(state => state.theme.theme)
   let dispatch = useDispatch() 
+  let { t: translation, i18n } = useTranslation()
   return (
     <Box>
       <AppBar position="static">
@@ -82,17 +87,28 @@ export default function SearchAppBar() {
             component="div"
             sx={(theme)=> ({ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: "black", fontFamily: theme.typography.title })}
           >
-            Stream 马马虎虎马马虎虎马马虎虎 
+            {translation("title")} 马马虎虎马马虎虎马马虎虎 
           </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder={translation("search")}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+          <FormControl variant='outlined' sx={{mx: 2}}  >
+            <Select value={"i18n.language"}
+            onChange={(e)=>{
+              i18n.changeLanguage(e.target.value)
+            }}
+            >
+              <MenuItem value={"en"}>English</MenuItem>
+              <MenuItem value={"uk"}>Українська</MenuItem>
+              <MenuItem value={"cn"}>中國人</MenuItem>
+            </Select>
+          </FormControl>
         </Toolbar>
       </AppBar>
     </Box>

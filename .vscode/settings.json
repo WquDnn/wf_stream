@@ -1,0 +1,9 @@
+{
+    "i18n-ally.localesPaths": [
+        "client/public/locales"
+    ],
+    "i18n-ally.enabledFrameworks": [
+        "react"
+    ],
+    "i18n-ally.keystyle": "nested"
+}

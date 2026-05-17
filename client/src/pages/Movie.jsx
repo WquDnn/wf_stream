@@ -6,8 +6,10 @@ import { styled, Box, Paper, Card, CardMedia, Typography, Divider } from "@mui/m
 import { useSelector, useDispatch } from "react-redux"
 import { getMovieInfo } from '../store/APIReducer'
 import { useEffect } from 'react'
+import { useTranslation, Trans } from 'react-i18next'
 export default function Movie() {
     let { id } = useParams()
+    let { t } = useTranslation()
     let dispatch = useDispatch()
     useEffect(()=>{
            dispatch(getMovieInfo(id))
@@ -19,13 +21,13 @@ export default function Movie() {
             <InfoBar>
                 <CardMedia image="http://locallhost:3000/poster.webp" sx={{aspectRatio: "3/4"}}/>
                 <Typography variant="body1">
-                    Release data: {new Date(movie.release_data).toLocaleDateString}
+                    {t("release_data")}: {new Date(movie.release_data).toLocaleDateString}
                 </Typography>
                 <Typography variant="body1">
                     IMDB: {movie.rating}
                 </Typography>
                 <Typography variant="body1">
-                   Duration:     {movie.duration}
+                   <Trans>duration</Trans>:     {movie.duration}
                 </Typography>
             </InfoBar>
             <PlayerWrapper>
@@ -57,7 +59,7 @@ export default function Movie() {
             />
             </PlayerWrapper>
             <OtherInfo>
-                <Typography variant="h4">Description</Typography>
+                <Typography variant="h4"><Trans>description</Trans></Typography>
                 <Divider></Divider>
                 <Typography variant="body1">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro iste fugit facilis ullam ipsa! Totam, culpa reprehenderit suscipit ipsum dicta amet harum autem! Facere molestias nobis provident aliquam ad?
